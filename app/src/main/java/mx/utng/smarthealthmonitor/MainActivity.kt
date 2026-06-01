@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import mx.utng.smarthealthmonitor.navigation.SmartHealthNavGraph
+import mx.utng.smarthealthmonitor.ui.screens.DashboardScreen
 import mx.utng.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 
 
@@ -32,15 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) {
 
-                    LoginScreen(
-
-                        onLoginSuccess = {
-
-                            Log.d(
-                                "SmartHealth",
-                                "Login exitoso"
-                            )
-                        }
+                    SmartHealthNavGraph(
                     )
                 }
             }
