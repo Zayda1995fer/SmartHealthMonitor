@@ -9,20 +9,32 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import mx.utng.smarthealthmonitor.data.models.MockData
+import androidx.lifecycle.viewmodel.compose.viewModel
+import mx.utng.smarthealthmonitor.BuildConfig
+import mx.utng.smarthealthmonitor.data.SmartHealthRepository
 import mx.utng.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.smarthealthmonitor.ui.components.TarjetaDato
+import mx.utng.smarthealthmonitor.ui.viewmodel.DashboardViewModel
 
 @Composable
 fun DashboardScreen(
     onHistorialClick: () -> Unit = {},
-    onAlertClick: () -> Unit = {}
+    onAlertClick: () -> Unit = {},
+    viewModel: DashboardViewModel = viewModel()
 ) {
 
-    val fcNormal = MockData.fcActual in 60..100
+    val fc by viewModel.fc.collectAsState()
+
+    val pasos by viewModel.pasos.collectAsState()
+
+    val historial = viewModel.historial
+
+    val fcNormal = fc in 60..100
 
     Scaffold(
 
@@ -55,7 +67,7 @@ fun DashboardScreen(
                 Column {
 
                     TarjetaDato(
-                        valor = "${MockData.fcActual}",
+                        valor = "$fc",
                         unidad = "bpm",
                         label = "Frecuencia cardíaca",
                         colorValor = MaterialTheme.colorScheme.error,
@@ -102,7 +114,7 @@ fun DashboardScreen(
             item {
 
                 TarjetaDato(
-                    valor = "${MockData.pasosActual}",
+                    valor = "$pasos",
                     unidad = "pasos",
                     label = "Pasos del día",
                     colorValor = MaterialTheme.colorScheme.primary,
@@ -137,11 +149,43 @@ fun DashboardScreen(
                 }
             }
 
-            items(MockData.historialFC) { lectura ->
+            items(historial) { lectura ->
 
                 FilaHistorial(
                     lectura = lectura
                 )
+            }
+
+            item {
+
+                if (BuildConfig.DEBUG) {
+
+                    OutlinedButton(
+
+                        onClick = {
+
+                            val fcSimulado =
+                                (60..110).random()
+
+                            SmartHealthRepository
+                                .actualizarFC(fcSimulado)
+
+                            SmartHealthRepository
+                                .actualizarPasos(
+                                    (3000..8000).random()
+                                )
+                        },
+
+                        modifier =
+                            Modifier.fillMaxWidth()
+
+                    ) {
+
+                        Text(
+                            "Simular dato del wearable (DEBUG)"
+                        )
+                    }
+                }
             }
         }
     }
