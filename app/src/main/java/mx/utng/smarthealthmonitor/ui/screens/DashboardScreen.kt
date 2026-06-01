@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import mx.utng.smarthealthmonitor.BuildConfig
 import mx.utng.smarthealthmonitor.data.SmartHealthRepository
 import mx.utng.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.smarthealthmonitor.ui.components.TarjetaDato
@@ -29,9 +28,7 @@ fun DashboardScreen(
 ) {
 
     val fc by viewModel.fc.collectAsState()
-
     val pasos by viewModel.pasos.collectAsState()
-
     val historial = viewModel.historial
 
     val fcNormal = fc in 60..100
@@ -82,11 +79,9 @@ fun DashboardScreen(
 
                         AssistChip(
                             onClick = {},
-
                             label = {
                                 Text("Normal")
                             },
-
                             colors =
                                 AssistChipDefaults.assistChipColors(
                                     containerColor = Color.Green
@@ -97,11 +92,9 @@ fun DashboardScreen(
 
                         AssistChip(
                             onClick = {},
-
                             label = {
                                 Text("Consulta al médico")
                             },
-
                             colors =
                                 AssistChipDefaults.assistChipColors(
                                     containerColor = Color.Red
@@ -126,16 +119,12 @@ fun DashboardScreen(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-
-                    horizontalArrangement =
-                        Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
 
                     Text(
                         text = "Historial",
-
-                        style =
-                            MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge
                     )
 
                     TextButton(
@@ -158,33 +147,29 @@ fun DashboardScreen(
 
             item {
 
-                if (BuildConfig.DEBUG) {
+                OutlinedButton(
 
-                    OutlinedButton(
+                    onClick = {
 
-                        onClick = {
+                        val fcSimulado =
+                            (60..110).random()
 
-                            val fcSimulado =
-                                (60..110).random()
+                        SmartHealthRepository
+                            .actualizarFC(fcSimulado)
 
-                            SmartHealthRepository
-                                .actualizarFC(fcSimulado)
+                        SmartHealthRepository
+                            .actualizarPasos(
+                                (3000..8000).random()
+                            )
+                    },
 
-                            SmartHealthRepository
-                                .actualizarPasos(
-                                    (3000..8000).random()
-                                )
-                        },
+                    modifier = Modifier.fillMaxWidth()
 
-                        modifier =
-                            Modifier.fillMaxWidth()
+                ) {
 
-                    ) {
-
-                        Text(
-                            "Simular dato del wearable (DEBUG)"
-                        )
-                    }
+                    Text(
+                        "Simular dato del wearable"
+                    )
                 }
             }
         }
