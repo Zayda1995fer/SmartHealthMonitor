@@ -1,5 +1,6 @@
 package mx.utng.smarthealthmonitor.wear.presentation
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,17 +20,39 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Registrar Health Services al iniciar
-        lifecycleScope.launch {
-            try {
-                HealthDataService.registrar(applicationContext)
-            } catch (e: Exception) {
-                android.util.Log.e("MainActivity", "Error registrando HealthDataService: ${e.message}")
-            }
-        }
+        // Solicitar permisos en tiempo de ejecución
+        val permisos = arrayOf(
+            android.Manifest.permission.BODY_SENSORS,
+            android.Manifest.permission.ACTIVITY_RECOGNITION,
+            "android.permission.health.READ_HEART_RATE"
+        )
+
+        requestPermissions(permisos, 100)
 
         setContent {
             WearScreen()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100 &&
+            grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+        ) {
+            // Permisos concedidos — registrar Health Services
+            lifecycleScope.launch {
+                try {
+                    HealthDataService.registrar(applicationContext)
+                } catch (e: Exception) {
+                    android.util.Log.e("MainActivity", "Error registrando HealthDataService: ${e.message}")
+                }
+            }
+        } else {
+            android.util.Log.w("MainActivity", "Permisos denegados — Health Services no disponible")
         }
     }
 }

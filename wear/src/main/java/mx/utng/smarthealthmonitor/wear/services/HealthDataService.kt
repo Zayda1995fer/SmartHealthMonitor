@@ -7,7 +7,6 @@ import androidx.health.services.client.data.DataPointContainer
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import androidx.health.services.client.data.SampleDataPoint
-import androidx.health.services.client.awaitWithContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.guava.await
 import mx.utng.smarthealthmonitor.wear.communication.WearDataSender
