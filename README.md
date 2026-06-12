@@ -1,30 +1,41 @@
 # SmartHealth Monitor
-
-Aplicación Android multiplataforma para monitoreo de salud personal.
-
-Desarrollada como proyecto integrador en UTNG — 9° Cuatrimestre 2025.
-
+![Android CI](https://img.shields.io/badge/Android-API26+-green)
+![Compose](https://img.shields.io/badge/Jetpack%20Compose-MD3-blue)
+ 
+Aplicación Android de monitoreo de salud personal en tiempo real.
+Desarrollada como proyecto integrador — UTNG 9° Cuatrimestre 2025.
+ 
 ## Stack tecnológico
+| Tecnología | Uso |
+|---|---|
+| Kotlin + Jetpack Compose | UI declarativa con Material Design 3 |
+| Wearable Data Layer API  | Comunicación reloj ↔ teléfono (BLE) |
+| Health Services API     | Sensor FC real en background (Wear OS) |
+| Room Database           | Historial persistente de lecturas FC |
+| Jetpack Navigation      | NavHost entre 4 pantallas |
+| GitHub + Conventional Commits | Control de versiones profesional |
+ 
+## Pantallas
+| Pantalla | Descripción |
+|---|---|
+| LoginScreen | Autenticación con validación y State |
+| DashboardScreen | FC y Pasos en tiempo real del wearable |
+| HistorialScreen | Lecturas persistidas en Room con Flow reactivo |
+| AlertaScreen | AlertDialog MD3 + Snackbar de confirmación |
+ 
+## Capturas de pantalla
+![Login]
+![alt text](image.png)
 
-- Kotlin + Jetpack Compose
-- Material Design 3
-- Wearable Data Layer API (Wear OS)
-- Android TV / Leanback + Media3
-- Jetpack Navigation + Room + StateFlow
+![Dashboard]
+![alt text](image-1.png)
 
-## Pantallas implementadas
+![Historial]
+![alt text](image-3.png)
 
-- [x] LoginScreen — S4
-- [x] DashboardScreen — S5
-- [ ] Historial + wearable real — S6
-- [ ] Android TV — S10-S12
-
+![Alerta]
+![alt text](image-2.png)
+ 
 ## Autor
+Zayda Fernanda Vargas — UTNG — Ing. en Desarrollo y Gestión de Software
 
-Zayda Fernanda Vargas Vargas — UTNG
-
-
-
-# SmartHealthMonitor.
-
-# 1.	Proyecto integrador UTNG S9 2025.

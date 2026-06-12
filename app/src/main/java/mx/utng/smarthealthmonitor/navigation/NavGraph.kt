@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mx.utng.smarthealthmonitor.LoginScreen
 import mx.utng.smarthealthmonitor.ui.screens.DashboardScreen
+import mx.utng.smarthealthmonitor.ui.screens.HistorialScreen
 import mx.utng.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 
 @Composable
@@ -26,14 +27,10 @@ fun SmartHealthNavGraph() {
         startDestination = Screen.Login.route
     ) {
 
-        // Login
         composable(Screen.Login.route) {
-
             LoginScreen(
                 onLoginSuccess = {
-
                     navController.navigate(Screen.Dashboard.route) {
-
                         popUpTo(Screen.Login.route) {
                             inclusive = true
                         }
@@ -42,40 +39,25 @@ fun SmartHealthNavGraph() {
             )
         }
 
-        // Dashboard
         composable(Screen.Dashboard.route) {
-
             DashboardScreen(
-
                 onHistorialClick = {
                     navController.navigate(Screen.Historial.route)
-                },
-
-                onAlertClick = {
-                    navController.navigate(Screen.Alerta.route)
                 }
             )
         }
 
-        // Historial
+        // Historial — ya no es PantallaEnConstruccion
         composable(Screen.Historial.route) {
-
-            PantallaEnConstruccion(
-                titulo = "Historial completo",
-                onBack = {
-                    navController.popBackStack()
-                }
+            HistorialScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 
-        // Alerta
         composable(Screen.Alerta.route) {
-
             PantallaEnConstruccion(
                 titulo = "Enviar alerta",
-                onBack = {
-                    navController.popBackStack()
-                }
+                onBack = { navController.popBackStack() }
             )
         }
     }
@@ -87,25 +69,13 @@ fun PantallaEnConstruccion(
     titulo: String,
     onBack: () -> Unit
 ) {
-
     SmartHealthMonitorTheme {
-
         Scaffold(
-
             topBar = {
-
                 TopAppBar(
-
-                    title = {
-                        Text(titulo)
-                    },
-
+                    title = { Text(titulo) },
                     navigationIcon = {
-
-                        IconButton(
-                            onClick = onBack
-                        ) {
-
+                        IconButton(onClick = onBack) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Regresar"
@@ -114,17 +84,13 @@ fun PantallaEnConstruccion(
                     }
                 )
             }
-
         ) { paddingValues ->
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-
                 contentAlignment = Alignment.Center
             ) {
-
                 Text(
                     text = "Próximamente: $titulo",
                     style = MaterialTheme.typography.titleMedium
