@@ -14,6 +14,10 @@ fun FilaHistorial(
     lectura: LecturaFC,
     modifier: Modifier = Modifier
 ) {
+    val colorTexto = if (lectura.esNormal)
+        MaterialTheme.colorScheme.onSurface
+    else
+        MaterialTheme.colorScheme.error
 
     Row(
         modifier = modifier
@@ -22,18 +26,17 @@ fun FilaHistorial(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
         Text(
             text = "${lectura.valorBpm} bpm",
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            color = colorTexto
         )
-
         Text(
             text = lectura.hora,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = colorTexto
         )
     }
-
     HorizontalDivider()
 }

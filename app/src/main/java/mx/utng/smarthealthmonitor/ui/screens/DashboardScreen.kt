@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import mx.utng.smarthealthmonitor.data.SmartHealthRepository
 import mx.utng.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.smarthealthmonitor.ui.components.TarjetaDato
 import mx.utng.smarthealthmonitor.ui.viewmodel.DashboardViewModel
@@ -26,28 +25,21 @@ fun DashboardScreen(
     onAlertClick: () -> Unit = {},
     viewModel: DashboardViewModel = viewModel()
 ) {
-
     val fc by viewModel.fc.collectAsState()
     val pasos by viewModel.pasos.collectAsState()
-    val historial = viewModel.historial
+    val historial by viewModel.historial.collectAsState()
 
     val fcNormal = fc in 60..100
 
     Scaffold(
-
         floatingActionButton = {
-
-            FloatingActionButton(
-                onClick = onAlertClick
-            ) {
-
+            FloatingActionButton(onClick = onAlertClick) {
                 Icon(
                     imageVector = Icons.Default.Warning,
                     contentDescription = "Alerta"
                 )
             }
         }
-
     ) { paddingValues ->
 
         LazyColumn(
@@ -55,57 +47,45 @@ fun DashboardScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),
-
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
             item {
-
                 Column {
-
                     TarjetaDato(
                         valor = "$fc",
                         unidad = "bpm",
                         label = "Frecuencia cardíaca",
-                        colorValor = MaterialTheme.colorScheme.error,
+                        colorValor = if (fcNormal)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.error,
                         icono = Icons.Default.Favorite
                     )
 
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     if (fcNormal) {
-
                         AssistChip(
                             onClick = {},
-                            label = {
-                                Text("Normal")
-                            },
-                            colors =
-                                AssistChipDefaults.assistChipColors(
-                                    containerColor = Color.Green
-                                )
+                            label = { Text("Normal") },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = Color.Green
+                            )
                         )
-
                     } else {
-
                         AssistChip(
                             onClick = {},
-                            label = {
-                                Text("Consulta al médico")
-                            },
-                            colors =
-                                AssistChipDefaults.assistChipColors(
-                                    containerColor = Color.Red
-                                )
+                            label = { Text("Consulta al médico") },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = Color.Red
+                            )
                         )
                     }
                 }
             }
 
             item {
-
                 TarjetaDato(
                     valor = "$pasos",
                     unidad = "pasos",
@@ -116,60 +96,30 @@ fun DashboardScreen(
             }
 
             item {
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-
                     Text(
                         text = "Historial",
                         style = MaterialTheme.typography.titleLarge
                     )
-
-                    TextButton(
-                        onClick = onHistorialClick
-                    ) {
-
-                        Text(
-                            text = "Ver todo"
-                        )
+                    TextButton(onClick = onHistorialClick) {
+                        Text("Ver todo")
                     }
                 }
             }
 
-            items(historial) { lectura ->
-
-                FilaHistorial(
-                    lectura = lectura
-                )
+            items(historial, key = { it.id }) { lectura ->
+                FilaHistorial(lectura = lectura)
             }
 
             item {
-
                 OutlinedButton(
-
-                    onClick = {
-
-                        val fcSimulado =
-                            (60..110).random()
-
-                        SmartHealthRepository
-                            .actualizarFC(fcSimulado)
-
-                        SmartHealthRepository
-                            .actualizarPasos(
-                                (3000..8000).random()
-                            )
-                    },
-
+                    onClick = { viewModel.simularDato() },
                     modifier = Modifier.fillMaxWidth()
-
                 ) {
-
-                    Text(
-                        "Simular dato del wearable"
-                    )
+                    Text("Simular dato del wearable")
                 }
             }
         }
