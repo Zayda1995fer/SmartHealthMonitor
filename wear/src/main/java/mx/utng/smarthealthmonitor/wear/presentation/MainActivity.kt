@@ -14,7 +14,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Solicitar permisos en tiempo de ejecución
         val permisos = arrayOf(
             android.Manifest.permission.BODY_SENSORS,
             android.Manifest.permission.ACTIVITY_RECOGNITION,
@@ -25,8 +24,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SmartHealthWearTheme {
-                // Ejercicio 02 y 03: SmartHealthWearNavGraph()
-                // Por ahora pantalla en blanco es válido
+                WearDashboardScreen()
             }
         }
     }

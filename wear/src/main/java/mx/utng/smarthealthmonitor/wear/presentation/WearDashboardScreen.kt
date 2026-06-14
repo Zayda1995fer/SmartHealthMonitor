@@ -39,7 +39,10 @@ fun WearDashboardScreen(
             item {
                 Chip(
                     label = { Text("⚠ Alerta") },
-                    onClick = onAlertClick,
+                    onClick = {
+                        android.util.Log.d("WearNav", "Chip Alerta presionado")
+                        onAlertClick()
+                    },
                     colors = ChipDefaults.primaryChipColors(
                         backgroundColor = MaterialTheme.colors.error
                     ),

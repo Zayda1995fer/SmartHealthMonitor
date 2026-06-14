@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.compose.material:material-icons-extended:1.6.0")
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
