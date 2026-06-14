@@ -1,5 +1,6 @@
 package mx.utng.smarthealthmonitor.wear.presentation
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.wear.compose.navigation.*
@@ -20,11 +21,13 @@ fun SmartHealthWearNavGraph() {
         composable(WearScreens.DASHBOARD) {
             WearDashboardScreen(
                 onAlertClick = {
+                    Log.d("WearNav", "Navegando a ALERTA")
                     navController.navigate(WearScreens.ALERTA)
                 }
             )
         }
         composable(WearScreens.ALERTA) {
+            Log.d("WearNav", "En pantalla ALERTA")
             val vm: WearDashboardViewModel = viewModel()
             val fc by vm.fc.collectAsState()
             WearAlertaScreen(
