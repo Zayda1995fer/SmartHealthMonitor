@@ -35,6 +35,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.wear.watchface:watchface:1.2.1")
+    implementation("androidx.wear.watchface:watchface-complications-rendering:1.2.1")
+    implementation("androidx.wear.watchface:watchface-style:1.2.1")
+
 
     implementation("androidx.compose.material:material-icons-extended:1.6.0")
     // Coroutines

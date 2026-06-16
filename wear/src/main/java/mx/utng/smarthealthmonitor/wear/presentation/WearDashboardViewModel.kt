@@ -3,16 +3,17 @@ package mx.utng.smarthealthmonitor.wear.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
-import mx.utng.smarthealthmonitor.data.SmartHealthRepository
-import mx.utng.smarthealthmonitor.data.models.LecturaFC
+import mx.utng.smarthealthmonitor.wear.data.LecturaFC
+import mx.utng.smarthealthmonitor.wear.data.WearRepository
 
 class WearDashboardViewModel : ViewModel() {
 
-    private val _fc = MutableStateFlow(72)
-    val fc: StateFlow<Int> = _fc.asStateFlow()
+    val fc: StateFlow<Int> = WearRepository.fcFlow
+        .map { if (it == 0) 72 else it }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 72)
 
     val historial: StateFlow<List<LecturaFC>> =
-        SmartHealthRepository.obtenerHistorial()
+        WearRepository.obtenerHistorial()
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5_000),
@@ -20,6 +21,6 @@ class WearDashboardViewModel : ViewModel() {
             )
 
     fun actualizarFC(bpm: Int) {
-        _fc.value = bpm
+        WearRepository.actualizarFC(bpm)
     }
 }
