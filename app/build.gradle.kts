@@ -50,7 +50,6 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("com.google.android.gms:play-services-wearable:18.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

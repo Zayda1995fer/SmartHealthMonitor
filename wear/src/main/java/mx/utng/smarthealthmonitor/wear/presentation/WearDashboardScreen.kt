@@ -13,7 +13,8 @@ import mx.utng.smarthealthmonitor.wear.presentation.components.WearFCCard
 @Composable
 fun WearDashboardScreen(
     onAlertClick: () -> Unit = {},
-    viewModel: WearDashboardViewModel = viewModel()
+    viewModel: WearDashboardViewModel = viewModel(),
+    onHistorialClick: () -> Unit
 ) {
     val fc by viewModel.fc.collectAsState()
     val listState = rememberScalingLazyListState()
